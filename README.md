@@ -147,6 +147,10 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
+Note: `.env.example` points `DATABASE_URL` at the Compose `db` host. Without
+Docker either skip the `.env` file entirely (the SQLite default applies) or set
+`DATABASE_URL=sqlite+aiosqlite:///./users_api.db` in it.
+
 In `dev` the app auto-creates the schema and prints verification codes to the
 console. Celery is optional locally; run it only to exercise the cleanup task:
 
@@ -268,9 +272,12 @@ zero-config SQLite runs; production relies on migrations only.
 pytest
 ```
 
-The suite (in-memory SQLite, no external services) covers signup, duplicate
-detection, login, refresh, the verification flow, authentication guards and the
-full role-based authorization matrix for the user-management endpoints.
+The suite (19 tests, in-memory SQLite, no external services) covers signup,
+duplicate detection, login, refresh, the verification flow, authentication
+guards, the full role-based authorization matrix for the user-management
+endpoints, and the stale-account cleanup rule.
+
+Linting uses ruff: `ruff check .`
 
 ## Deliberate simplifications & next steps
 
@@ -294,5 +301,3 @@ and is how I would extend it given more time:
   an alternative is pre-hashing with SHA-256 before bcrypt.
 - **Hard deletes.** Cleanup and `DELETE /users/{id}` remove rows; a soft-delete
   (`deleted_at`) would preserve history and referential safety in a larger system.
-```
-# test

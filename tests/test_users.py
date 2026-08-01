@@ -5,7 +5,9 @@ from app.modules.users.models import User, UserRole
 API = "/api/v1"
 
 
-async def _make_user(session_factory, email, role=UserRole.USER, password="Password123"):
+async def _make_user(
+    session_factory, email, role=UserRole.USER, password="Password123"
+):
     async with session_factory() as session:
         user = User(
             email=email,

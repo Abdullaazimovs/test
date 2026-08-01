@@ -23,7 +23,7 @@ TEST_DATABASE_URL = "sqlite+aiosqlite://"
 
 
 @pytest_asyncio.fixture
-async def session_factory() -> AsyncGenerator[async_sessionmaker[AsyncSession], None]:
+async def session_factory() -> AsyncGenerator[async_sessionmaker[AsyncSession]]:
     engine = create_async_engine(
         TEST_DATABASE_URL,
         connect_args={"check_same_thread": False},
@@ -36,14 +36,14 @@ async def session_factory() -> AsyncGenerator[async_sessionmaker[AsyncSession], 
 
 
 @pytest_asyncio.fixture
-async def db_session(session_factory) -> AsyncGenerator[AsyncSession, None]:
+async def db_session(session_factory) -> AsyncGenerator[AsyncSession]:
     async with session_factory() as session:
         yield session
 
 
 @pytest_asyncio.fixture
-async def client(session_factory) -> AsyncGenerator[AsyncClient, None]:
-    async def override_get_db() -> AsyncGenerator[AsyncSession, None]:
+async def client(session_factory) -> AsyncGenerator[AsyncClient]:
+    async def override_get_db() -> AsyncGenerator[AsyncSession]:
         async with session_factory() as session:
             yield session
 

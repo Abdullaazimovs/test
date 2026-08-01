@@ -1,16 +1,15 @@
 """User ORM model and related enums."""
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
-from sqlalchemy import Boolean, DateTime
+from sqlalchemy import Boolean, DateTime, String
 from sqlalchemy import Enum as SAEnum
-from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base, TimestampMixin
 
 
-class UserRole(str, Enum):
+class UserRole(StrEnum):
     """Authorization roles. ``ADMIN`` unlocks the user-management endpoints."""
 
     USER = "user"

@@ -5,7 +5,7 @@ version-detection incompatibility between recent ``bcrypt`` releases and
 ``passlib`` and to keep the dependency surface small.
 """
 from datetime import UTC, datetime, timedelta
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 import bcrypt
@@ -20,7 +20,7 @@ from app.core.config import settings
 _BCRYPT_MAX_BYTES = 72
 
 
-class TokenType(str, Enum):
+class TokenType(StrEnum):
     """Discriminates access tokens from refresh tokens via the ``type`` claim."""
 
     ACCESS = "access"
